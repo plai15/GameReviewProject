@@ -13,8 +13,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
@@ -25,8 +31,37 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form ReviewGui
      */
-    public Login() {
+    public Login() throws NoSuchAlgorithmException {
+        
         initComponents();
+    }
+    
+     private static String getSecurePassword(String passwordToHash, byte[] salt)
+    {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(salt);
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
+     
+         private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
     }
 
     /**
@@ -133,7 +168,26 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        
+        String username = usernameField.getText();
+        String enteredPassword = passwordField.getText();
+        
+        
+        //TODO
+        //if(username is not in database)
+        //  show username error
+        
+        //if(username is in database)
+        //get salt plus hashed password and compare passwords
+        
+        try {
+            // TODO add your handling code here:
+            MessageDigest encrypter =  MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+
+        //if passwords match
         EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 try {
@@ -189,7 +243,11 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    new Login().setVisible(true);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
