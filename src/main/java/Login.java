@@ -1,32 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
  * @author tv8392uu
  */
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
 import java.awt.EventQueue;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import org.bson.types.Binary;
 
 public class Login extends javax.swing.JFrame {
@@ -236,7 +219,6 @@ public class Login extends javax.swing.JFrame {
         Binary saltString = user.get("salt", Binary.class);
         byte[] storedSalt = saltString.getData();
         
-
         try {
             MessageDigest encrypter = MessageDigest.getInstance("MD5");
             
@@ -246,8 +228,6 @@ public class Login extends javax.swing.JFrame {
                                         .append("password", storedPassword)
                                         .append("salt", salt);
             
-            //coll.insertOne(newUser);
-
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         } catch (NoSuchProviderException ex) {
@@ -255,7 +235,6 @@ public class Login extends javax.swing.JFrame {
         }
 
         if (enteredPassword.equals(storedPassword)) {
-
             //if passwords match
             EventQueue.invokeLater(new Runnable() {
                 public void run() {
@@ -271,9 +250,6 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -298,7 +274,6 @@ public class Login extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

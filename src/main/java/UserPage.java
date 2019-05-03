@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author tv8392uu
@@ -22,37 +21,25 @@ public class UserPage extends javax.swing.JFrame {
     public UserPage(String userName) {
         initComponents();
         MongoConnection myMongo = new MongoConnection();
-        myMongo.database.getCollection("Login");
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("Login");
-       
+
         org.bson.Document userInfo = coll.find(eq("username", userName)).first();
-        
-        if(userInfo != null) {
-        userNameLabel.setText(userInfo.get("username").toString());
-        String userStats = "Total Reviews: ";
-        userStats += userInfo.get("totalReviews").toString() + "\n";  
-        userStats += "Liked Games: ";
-        ArrayList<org.bson.Document> likedGames = (ArrayList<org.bson.Document>) userInfo.get("likedGames");
-        //org.bson.Document likedGames = likedGamesList.get(0);
-        
-        for(int i = 0; i < likedGames.size(); i ++) {
-            String iString = "";
-            iString += i;
-            Object[] likedGame = likedGames.get(i).values().toArray();
-            String likedGameString = likedGame[0].toString();
-            for(int j = 0; j < likedGameString.length(); j ++) {
-                if(likedGameString.charAt(j) == '[' || likedGameString.charAt(j) == ']') {
-                    likedGameString.replace('[', ' ');
-                    likedGameString = likedGameString.replace(']', ' ');
-                                    }
+        if (userInfo != null) {
+            userNameLabel.setText(userInfo.get("username").toString());
+            String userStats = "Total Reviews: ";
+            userStats += userInfo.get("totalReviews").toString() + "\n";
+            userStats += "Liked Games: ";
+            ArrayList<org.bson.Document> likedGames = (ArrayList<org.bson.Document>) userInfo.get("likedGames");
+
+            for (int i = 0; i < likedGames.size(); i++) {
+                Object[] likedGame = likedGames.get(i).values().toArray();
+                String likedGameString = likedGame[0].toString();
+                likedGameString.replace('[', ' ');
+                likedGameString = likedGameString.replace(']', ' ');
+                userStats += likedGameString + "\n";
             }
-            userStats += likedGameString + "\n";
+            userInfoArea.setText(userStats);
         }
-        
-        userInfoArea.setText(userStats);
-        }
-        
-        
     }
 
     /**
