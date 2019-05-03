@@ -89,7 +89,7 @@ public class MainMenu extends javax.swing.JFrame {
                                 try {
                                     VideoGamePage window = new VideoGamePage();
                                     window.setVisible(true);
-                                    
+                                    MainMenu.super.setVisible(false);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -105,7 +105,7 @@ public class MainMenu extends javax.swing.JFrame {
                                 try {
                                     BoardGamePage window = new BoardGamePage();
                                     window.setVisible(true);
-                                    
+                                    MainMenu.super.setVisible(false);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
