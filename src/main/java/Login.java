@@ -262,7 +262,7 @@ public class Login extends javax.swing.JFrame {
                     try {
                         MainMenu window = new MainMenu();
                         window.setVisible(true);
-                        Login.super.setVisible(false);
+                        Login.super.dispose();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

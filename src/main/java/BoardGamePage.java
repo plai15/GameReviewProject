@@ -100,8 +100,7 @@ public class BoardGamePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
+        this.dispose();
         new MainMenu().setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 
