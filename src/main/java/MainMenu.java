@@ -30,25 +30,25 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        videoGamesButton = new javax.swing.JToggleButton();
-        boardGamesButton = new javax.swing.JToggleButton();
+        videoGameButton = new javax.swing.JButton();
+        boardGameButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel1.setText("Main Menu");
 
-        videoGamesButton.setText("Video Games");
-        videoGamesButton.addActionListener(new java.awt.event.ActionListener() {
+        videoGameButton.setText("Video Games");
+        videoGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                videoGamesButtonActionPerformed(evt);
+                videoGameButtonActionPerformed(evt);
             }
         });
 
-        boardGamesButton.setText("Board Games");
-        boardGamesButton.addActionListener(new java.awt.event.ActionListener() {
+        boardGameButton.setText("Board Games");
+        boardGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boardGamesButtonActionPerformed(evt);
+                boardGameButtonActionPerformed(evt);
             }
         });
 
@@ -57,16 +57,15 @@ public class MainMenu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(241, 241, 241)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(videoGamesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(boardGamesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addGap(241, 241, 241)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(92, Short.MAX_VALUE)
+                .addComponent(videoGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(boardGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,31 +74,15 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(videoGamesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boardGamesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(videoGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boardGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(161, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void boardGamesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boardGamesButtonActionPerformed
-        // TODO add your handling code here:
-        EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                try {
-                                    BoardGamePage window = new BoardGamePage();
-                                    window.setVisible(true);
-                                    
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                        });
-    }//GEN-LAST:event_boardGamesButtonActionPerformed
-
-    private void videoGamesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_videoGamesButtonActionPerformed
+    private void videoGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_videoGameButtonActionPerformed
         // TODO add your handling code here:
         EventQueue.invokeLater(new Runnable() {
                             public void run() {
@@ -113,7 +96,23 @@ public class MainMenu extends javax.swing.JFrame {
                             }
 
                         });
-    }//GEN-LAST:event_videoGamesButtonActionPerformed
+    }//GEN-LAST:event_videoGameButtonActionPerformed
+
+    private void boardGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boardGameButtonActionPerformed
+        // TODO add your handling code here:
+        EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                try {
+                                    BoardGamePage window = new BoardGamePage();
+                                    window.setVisible(true);
+                                    
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        });
+    }//GEN-LAST:event_boardGameButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,8 +150,8 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton boardGamesButton;
+    private javax.swing.JButton boardGameButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JToggleButton videoGamesButton;
+    private javax.swing.JButton videoGameButton;
     // End of variables declaration//GEN-END:variables
 }

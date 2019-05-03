@@ -24,19 +24,16 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
-                      <Component id="videoGamesButton" min="-2" pref="190" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="boardGamesButton" min="-2" pref="184" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace pref="79" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace pref="92" max="32767" attributes="0"/>
+              <Component id="videoGameButton" min="-2" pref="168" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+              <Component id="boardGameButton" min="-2" pref="168" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -47,8 +44,8 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="videoGamesButton" alignment="3" min="-2" pref="78" max="-2" attributes="0"/>
-                  <Component id="boardGamesButton" alignment="3" min="-2" pref="78" max="-2" attributes="0"/>
+                  <Component id="videoGameButton" alignment="3" min="-2" pref="78" max="-2" attributes="0"/>
+                  <Component id="boardGameButton" alignment="3" min="-2" pref="78" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="161" max="32767" attributes="0"/>
           </Group>
@@ -64,20 +61,20 @@
         <Property name="text" type="java.lang.String" value="Main Menu"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="videoGamesButton">
+    <Component class="javax.swing.JButton" name="videoGameButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Video Games"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="videoGamesButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="videoGameButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="boardGamesButton">
+    <Component class="javax.swing.JButton" name="boardGameButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Board Games"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boardGamesButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boardGameButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
