@@ -39,7 +39,7 @@ public class Login extends javax.swing.JFrame {
         errorLabel.setVisible(false);
     }
 
-    private static String getSecurePassword(String passwordToHash, byte[] salt) {
+    public static String getSecurePassword(String passwordToHash, byte[] salt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -56,7 +56,7 @@ public class Login extends javax.swing.JFrame {
         return generatedPassword;
     }
 
-    private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
+    public static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);

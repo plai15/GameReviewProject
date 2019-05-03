@@ -1,3 +1,9 @@
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +19,40 @@ public class UserPage extends javax.swing.JFrame {
     /**
      * Creates new form UserPage
      */
-    public UserPage() {
+    public UserPage(String userName) {
         initComponents();
+        MongoConnection myMongo = new MongoConnection();
+        myMongo.database.getCollection("Login");
+        MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("Login");
+       
+        org.bson.Document userInfo = coll.find(eq("username", userName)).first();
+        
+        if(userInfo != null) {
+        userNameLabel.setText(userInfo.get("username").toString());
+        String userStats = "Total Reviews: ";
+        userStats += userInfo.get("totalReviews").toString() + "\n";  
+        userStats += "Liked Games: ";
+        ArrayList<org.bson.Document> likedGames = (ArrayList<org.bson.Document>) userInfo.get("likedGames");
+        //org.bson.Document likedGames = likedGamesList.get(0);
+        
+        for(int i = 0; i < likedGames.size(); i ++) {
+            String iString = "";
+            iString += i;
+            Object[] likedGame = likedGames.get(i).values().toArray();
+            String likedGameString = likedGame[0].toString();
+            for(int j = 0; j < likedGameString.length(); j ++) {
+                if(likedGameString.charAt(j) == '[' || likedGameString.charAt(j) == ']') {
+                    likedGameString.replace('[', ' ');
+                    likedGameString = likedGameString.replace(']', ' ');
+                                    }
+            }
+            userStats += likedGameString + "\n";
+        }
+        
+        userInfoArea.setText(userStats);
+        }
+        
+        
     }
 
     /**
@@ -39,6 +77,7 @@ public class UserPage extends javax.swing.JFrame {
         userNameLabel.setText("User");
 
         userInfoArea.setColumns(20);
+        userInfoArea.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         userInfoArea.setRows(5);
         jScrollPane1.setViewportView(userInfoArea);
 
@@ -70,8 +109,8 @@ public class UserPage extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(227, 227, 227))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,7 +119,7 @@ public class UserPage extends javax.swing.JFrame {
                 .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(reviewsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,7 +159,7 @@ public class UserPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserPage().setVisible(true);
+                new UserPage("Darren550").setVisible(true);
             }
         });
     }

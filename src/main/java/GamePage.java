@@ -32,18 +32,12 @@ public class GamePage extends javax.swing.JFrame {
         developer = game.get("Developer").toString();
         cost = game.get("Cost").toString();
         releaseDate = game.get("Release Date").toString();
-        
-        
+                
         Videogame thisGame = new Videogame(name, developer, releaseDate, cost);
-
-        
         
         gameTitleLabel.setText(thisGame.getName());
         
-        gameInfoArea.setText(thisGame.toString());
-        
-        
-        
+        gameInfoArea.setText("Average Review: 0.0\n" + thisGame.toString());        
     }
 
     /**
@@ -72,6 +66,7 @@ public class GamePage extends javax.swing.JFrame {
         gameTitleLabel.setText("Game Title");
 
         gameInfoArea.setColumns(20);
+        gameInfoArea.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         gameInfoArea.setRows(5);
         jScrollPane2.setViewportView(gameInfoArea);
 
@@ -183,7 +178,7 @@ public class GamePage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GamePage("Super Mario Party").setVisible(true);
+                new GamePage("Rocket League").setVisible(true);
             }
         });
     }
