@@ -18,19 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 
+
 public class GameReView {
 
     public static void  main(String[] args) {
 
-        MongoClient mongoClient = new MongoClient("pkcluster-ok2q6.mongodb.net");
-        MongoDatabase database = mongoClient.getDatabase("GameReview" );
-        MongoCollection<Document> Login = database.getCollection("Login");
+        MongoClient mongo = new MongoClient(); 
+        MongoDatabase database = mongo.getDatabase("Game");   
+        MongoCollection<org.bson.Document> coll = database.getCollection("VideoGame");
+        
+        org.bson.Document loginDoc = new org.bson.Document("Name", "brandon")
+                .append("Developer", "1234");
 
-        Document loginDoc = new Document("username", "brandon")
-                .append("password", "1234");
-
-
-        Login.insertOne(loginDoc);
+        coll.insertOne(loginDoc);
        
 
 

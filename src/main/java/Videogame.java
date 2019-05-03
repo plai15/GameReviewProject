@@ -10,13 +10,13 @@
  */
 public class Videogame {
     
-    private String name, developer, releaseDate;
-    private double cost;
+    private String name, developer, releaseDate, cost;
+
 
     public Videogame() {
     }
 
-    public Videogame(String name, String developer, String releaseDate, double cost) {
+    public Videogame(String name, String developer, String releaseDate, String cost) {
         this.name = name;
         this.developer = developer;
         this.releaseDate = releaseDate;
@@ -47,17 +47,19 @@ public class Videogame {
         this.releaseDate = releaseDate;
     }
 
-    public double getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
     @Override
     public String toString() {
-        return "Videogame{" + "name=" + name + ", developer=" + developer + ", releaseDate=" + releaseDate + ", cost=" + cost + '}';
+        return "Developer: " + developer +  "\n" +  
+               "Release Date: " + releaseDate + "\n" + 
+               "Cost: " + cost;
     }
     
     

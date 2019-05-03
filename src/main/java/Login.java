@@ -8,6 +8,8 @@
  *
  * @author tv8392uu
  */
+import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,36 +30,31 @@ import javax.swing.JTextField;
 
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ReviewGui
-     */
+    MongoConnection mongo = new MongoConnection();
+    MongoCollection<org.bson.Document> coll = mongo.database.getCollection("Login");
+
     public Login() throws NoSuchAlgorithmException {
-        
         initComponents();
     }
-    
-     private static String getSecurePassword(String passwordToHash, byte[] salt)
-    {
+
+    private static String getSecurePassword(String passwordToHash, byte[] salt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(salt);
             byte[] bytes = md.digest(passwordToHash.getBytes());
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
+            for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return generatedPassword;
     }
-     
-         private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException
-    {
+
+    private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
@@ -107,7 +104,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        passwordField.setText("jPasswordField1");
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldActionPerformed(evt);
@@ -168,48 +164,60 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        
+
         String username = usernameField.getText();
         String enteredPassword = passwordField.getText();
-        
-        
-        //TODO
-        //if(username is not in database)
-        //  show username error
-        
-        //if(username is in database)
-        //get salt plus hashed password and compare passwords
+        String storedPassword = "";
+        org.bson.Document user = coll.find(eq("username", username)).first();
+        storedPassword = user.get("password").toString();
+        String saltString = user.get("salt").toString();
+        byte[] storedSalt = saltString.getBytes();
         
         try {
-            // TODO add your handling code here:
-            MessageDigest encrypter =  MessageDigest.getInstance("MD5");
+            MessageDigest encrypter = MessageDigest.getInstance("MD5");
+            
+            byte[] salt = getSalt();
+ 
+            enteredPassword = getSecurePassword(enteredPassword, storedSalt);
+            
+            org.bson.Document newUser = new org.bson.Document("username", username)
+                                        .append("password", storedPassword)
+                                        .append("salt", salt);
+            
+            //coll.insertOne(newUser);
+
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //if passwords match
-        EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                try {
-                                    MainMenu window = new MainMenu();
-                                    window.setVisible(true);
-                                    
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
+        if (enteredPassword.equals(storedPassword)) {
 
-                        });
+            //if passwords match
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        MainMenu window = new MainMenu();
+                        window.setVisible(true);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     /**
