@@ -1,3 +1,10 @@
+
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import java.util.ArrayList;
+import java.util.Random;
+import org.bson.Document;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,7 +21,35 @@ public class BoardGamePage extends javax.swing.JFrame {
      * Creates new form BoardGamePage
      */
     public BoardGamePage() {
-        initComponents();
+        initComponents();MongoConnection myMongo = new MongoConnection();
+        MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("BoardGameReview");
+        FindIterable<Document> cursor = coll.find();
+        ArrayList<Document> reviewList = new ArrayList();
+        
+        
+        for (Document doc : cursor) {
+            reviewList.add(doc);
+        }
+        
+        Random rand = new Random();
+        Review hotReview = new Review();
+        Document thisReview;
+        String hotReviews = "";
+        for(int i = 0; i < 50; i ++) {
+            thisReview = reviewList.get(rand.nextInt(reviewList.size()));
+            
+            hotReview.setUserName(thisReview.get("Reviewing User").toString());
+            hotReview.setGameName(thisReview.get("Game").toString());
+            hotReview.setReview(thisReview.get("Review").toString());
+            hotReview.setScore(thisReview.get("Score").toString());
+            
+            hotReviews += hotReview.toString() + "\n\n";
+        }
+        
+        gameReviewArea.setText(hotReviews);
+        
+        
+        
     }
 
     /**
@@ -39,6 +74,7 @@ public class BoardGamePage extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel1.setText("Board Game Board");
 
+        gameReviewArea.setEditable(false);
         gameReviewArea.setColumns(20);
         gameReviewArea.setRows(5);
         jScrollPane1.setViewportView(gameReviewArea);
@@ -53,7 +89,7 @@ public class BoardGamePage extends javax.swing.JFrame {
         });
 
         latestReviewsLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        latestReviewsLabel1.setText("Latest Reviews");
+        latestReviewsLabel1.setText("Hot Reviews");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,20 +97,23 @@ public class BoardGamePage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
+                .addComponent(backButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gameSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(latestReviewsLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(gameSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(645, 645, 645))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,10 +127,10 @@ public class BoardGamePage extends javax.swing.JFrame {
                             .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(backButton)
-                        .addGap(43, 43, 43)
-                        .addComponent(latestReviewsLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(backButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(latestReviewsLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
         );

@@ -185,9 +185,7 @@ public class Login extends javax.swing.JFrame {
             return;
         }
         
-        try {
-            MessageDigest encrypter = MessageDigest.getInstance("MD5");
-            
+        try {            
             byte[] salt = getSalt();
             String hashedPassword = getSecurePassword(enteredPassword, salt);
             org.bson.Document newUser = new org.bson.Document("username", username)
@@ -219,9 +217,7 @@ public class Login extends javax.swing.JFrame {
         Binary saltString = user.get("salt", Binary.class);
         byte[] storedSalt = saltString.getData();
         
-        try {
-            MessageDigest encrypter = MessageDigest.getInstance("MD5");
-            
+        try {            
             byte[] salt = getSalt();
             enteredPassword = getSecurePassword(enteredPassword, storedSalt);
             org.bson.Document newUser = new org.bson.Document("username", username)

@@ -2,6 +2,8 @@
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
+import java.util.ArrayList;
+import java.util.Random;
 import org.bson.Document;
 
 /*
@@ -22,6 +24,32 @@ public class VideoGamePage extends javax.swing.JFrame {
     public VideoGamePage() {
         initComponents();
         
+        MongoConnection myMongo = new MongoConnection();
+        MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
+        FindIterable<Document> cursor = coll.find();
+        ArrayList<Document> reviewList = new ArrayList();
+        
+        
+        for (Document doc : cursor) {
+            reviewList.add(doc);
+        }
+        
+        Random rand = new Random();
+        Review hotReview = new Review();
+        Document thisReview;
+        String hotReviews = "";
+        for(int i = 0; i < 50; i ++) {
+            thisReview = reviewList.get(rand.nextInt(reviewList.size()));
+            
+            hotReview.setUserName(thisReview.get("Reviewing User").toString());
+            hotReview.setGameName(thisReview.get("Game").toString());
+            hotReview.setReview(thisReview.get("Review").toString());
+            hotReview.setScore(thisReview.get("Score").toString());
+            
+            hotReviews += hotReview.toString() + "\n\n";
+        }
+        
+        GameReviewArea.setText(hotReviews);
         
     }
 
@@ -49,6 +77,7 @@ public class VideoGamePage extends javax.swing.JFrame {
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         titleLabel.setText("Video Game Board");
 
+        GameReviewArea.setEditable(false);
         GameReviewArea.setColumns(20);
         GameReviewArea.setRows(5);
         jScrollPane1.setViewportView(GameReviewArea);
@@ -63,7 +92,7 @@ public class VideoGamePage extends javax.swing.JFrame {
         });
 
         latestReviewsLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        latestReviewsLabel.setText("Latest Reviews");
+        latestReviewsLabel.setText("Hot Reviews");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,7 +175,6 @@ public class VideoGamePage extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VideoGamePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
