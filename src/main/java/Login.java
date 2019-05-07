@@ -204,7 +204,7 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        String username = usernameField.getText();
+        final String username = usernameField.getText();
         String enteredPassword = passwordField.getText();
         String storedPassword = "";
         org.bson.Document user = coll.find(eq("username", username)).first();
@@ -235,7 +235,7 @@ public class Login extends javax.swing.JFrame {
             EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     try {
-                        MainMenu window = new MainMenu();
+                        MainMenu window = new MainMenu(username);
                         window.setVisible(true);
                         Login.super.dispose();
                     } catch (Exception e) {

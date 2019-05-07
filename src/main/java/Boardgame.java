@@ -10,12 +10,12 @@
  */
 public class Boardgame {
     private String name, designer;
-    private double cost;
+    private String cost;
 
     public Boardgame() {
     }
 
-    public Boardgame(String name, String designer, double cost) {
+    public Boardgame(String name, String designer, String cost) {
         this.name = name;
         this.designer = designer;
         this.cost = cost;
@@ -37,17 +37,18 @@ public class Boardgame {
         this.designer = designer;
     }
 
-    public double getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
     @Override
     public String toString() {
-        return "Boardgame{" + "name=" + name + ", designer=" + designer + ", cost=" + cost + '}';
+        return "Designer: " + designer +  "\n" +  
+               "Cost: " + cost;
     }
     
     

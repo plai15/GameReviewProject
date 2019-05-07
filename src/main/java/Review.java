@@ -20,6 +20,7 @@ public class Review {
         this.gameName = gameName;
         this.review = review;
         this.score = score;
+        
     }
 
     public String getUserName() {
@@ -56,6 +57,12 @@ public class Review {
 
     @Override
     public String toString() {
+        if(this.gameName == null) {
+            this.gameName = "";
+        }
+        if(this.userName == null) {
+            return  gameName + "\n" + review + "\n" + "Score:" + score;
+        }
         return  gameName + "\n" + "By: " + userName + "\n" + review + "\n" + "Score:" + score;
     }
 }
