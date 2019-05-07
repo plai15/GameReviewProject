@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.bson.Document;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: Page for the currently logged in user
  */
 public class LoggedInPage extends javax.swing.JFrame {
 
@@ -34,25 +30,31 @@ public class LoggedInPage extends javax.swing.JFrame {
 
         org.bson.Document user = coll.find(eq("username", username)).first();
 
+        //get user's info and display, otherwise tell them to contribute
         try {
             String userStats = "Total Reviews: ";
             userStats += user.get("totalReviews").toString() + "\n";
             userStats += "Liked Games: ";
-            ArrayList<org.bson.Document> likedGames = (ArrayList<org.bson.Document>) user.get("likedGames");
+            ArrayList<Object> likedGames = (ArrayList<Object>) user.get("likedGames");
 
             for (int i = 0; i < likedGames.size(); i++) {
-                Object[] likedGame = likedGames.get(i).values().toArray();
-                String likedGameString = likedGame[0].toString();
-                likedGameString.replace('[', ' ');
-                likedGameString = likedGameString.replace(']', ' ');
+                String likedGameString = likedGames.get(i).toString();
+                for (int j = 0; j < likedGameString.length(); j++) {
+                    if (likedGameString.charAt(j) == '=') {
+                        likedGameString = likedGameString.substring(j);
+
+                    }
+                }
+                likedGameString = likedGameString.replace('}', ' ');
+                likedGameString = likedGameString.replace('=', ' ');
+                likedGameString = likedGameString.trim();
                 userStats += likedGameString + "\n";
             }
             userInfoArea.setText(userStats);
-        }
-        catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             userInfoArea.setText("Contribute to the forum to see your stats here!");
         }
-        
+
         FindIterable<Document> videoReviews = videoReviewColl.find(eq("Reviewing User", username));
         FindIterable<Document> boardReviews = boardReviewColl.find(eq("Reviewing User", username));
 
@@ -63,6 +65,7 @@ public class LoggedInPage extends javax.swing.JFrame {
 
         }
 
+        //display all of the user's reviews
         Random rand = new Random();
         Review hotReview = new Review();
         Document thisReview;
@@ -73,7 +76,7 @@ public class LoggedInPage extends javax.swing.JFrame {
             hotReview.setReview(thisReview.get("Review").toString());
             hotReview.setScore(thisReview.get("Score").toString());
 
-            hotReviews += hotReview.toString() + "\n";
+            hotReviews += "\n" + hotReview.toString() + "\n";
         }
 
         reviewList = new ArrayList();
@@ -92,7 +95,7 @@ public class LoggedInPage extends javax.swing.JFrame {
 
             hotReviews += hotReview.toString() + "\n\n";
         }
-        
+
         this.reviewArea.setText(hotReviews);
 
     }
@@ -127,6 +130,7 @@ public class LoggedInPage extends javax.swing.JFrame {
 
         reviewArea.setEditable(false);
         reviewArea.setColumns(20);
+        reviewArea.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         reviewArea.setRows(5);
         jScrollPane2.setViewportView(reviewArea);
 

@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: Review class definition
  */
 public class Review {
     private String userName, gameName, review;

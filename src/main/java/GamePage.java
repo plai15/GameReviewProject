@@ -11,14 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.bson.Document;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: GUI page for individual games
  */
 public class GamePage extends javax.swing.JFrame {
 
@@ -41,6 +37,7 @@ public class GamePage extends javax.swing.JFrame {
 
         MongoCollection<org.bson.Document> coll = mongo.database.getCollection("VideoGame");
 
+        //figure out if game is a board game or video game
         if (coll.find(eq("Name", gameName)).first() == null) {
             coll = mongo.database.getCollection("BoardGame");
             this.isVideoGame = false;
@@ -48,11 +45,13 @@ public class GamePage extends javax.swing.JFrame {
         org.bson.Document game = coll.find(eq("Name", gameName)).first();
         MongoCollection<org.bson.Document> reviewColl;
 
+        //get game image
         String imagePath = game.get("path").toString();
         imagePath = imagePath.replace('"', ' ');
         imagePath = imagePath.trim();
         imageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagePath)));
         
+        //display game info and some random reviews
         if (this.isVideoGame) {
             name = game.get("Name").toString();
             developer = game.get("Developer").toString();
@@ -206,6 +205,7 @@ public class GamePage extends javax.swing.JFrame {
 
         latestReviews.setEditable(false);
         latestReviews.setColumns(20);
+        latestReviews.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         latestReviews.setRows(5);
         jScrollPane4.setViewportView(latestReviews);
 
@@ -223,13 +223,15 @@ public class GamePage extends javax.swing.JFrame {
                         .addComponent(backButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(imageIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(gameTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 130, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(gameTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(latestReviewsLabel)
@@ -246,11 +248,15 @@ public class GamePage extends javax.swing.JFrame {
                                 .addComponent(backButton)
                                 .addGap(212, 212, 212))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(gameTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(34, 34, 34)
+                                        .addComponent(reviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(gameTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(11, 11, 11))
                     .addGroup(layout.createSequentialGroup()

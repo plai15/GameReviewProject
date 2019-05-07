@@ -1,6 +1,4 @@
-/**
- * @author tv8392uu
- */
+
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
 import java.awt.EventQueue;
@@ -11,7 +9,11 @@ import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.types.Binary;
-
+/**
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: Login page
+ */
 public class Login extends javax.swing.JFrame {
 
     MongoConnection mongo = new MongoConnection();
@@ -22,6 +24,7 @@ public class Login extends javax.swing.JFrame {
         errorLabel.setVisible(false);
     }
 
+    //password hashing using SHA-1
     public static String getSecurePassword(String passwordToHash, byte[] salt) {
         String generatedPassword = null;
         try {
@@ -66,7 +69,6 @@ public class Login extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(102, 255, 204));
         setForeground(java.awt.Color.darkGray);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -174,6 +176,7 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_passwordFieldActionPerformed
 
+    //create a new account
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
         String username = usernameField.getText();
@@ -202,6 +205,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    //attempt to log in
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         final String username = usernameField.getText();
@@ -230,6 +234,7 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        //if account is valid, log in to main menu
         if (enteredPassword.equals(storedPassword)) {
             //if passwords match
             EventQueue.invokeLater(new Runnable() {

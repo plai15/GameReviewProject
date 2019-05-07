@@ -1,15 +1,10 @@
 
 import java.awt.EventQueue;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: Main menu page
  */
 public class MainMenu extends javax.swing.JFrame {
 
@@ -101,6 +96,7 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //go to video game board
     private void videoGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_videoGameButtonActionPerformed
         // TODO add your handling code here:
         EventQueue.invokeLater(new Runnable() {
@@ -117,6 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
                         });
     }//GEN-LAST:event_videoGameButtonActionPerformed
 
+    //go to board game board
     private void boardGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boardGameButtonActionPerformed
         // TODO add your handling code here:
         EventQueue.invokeLater(new Runnable() {
@@ -133,6 +130,7 @@ public class MainMenu extends javax.swing.JFrame {
                         });
     }//GEN-LAST:event_boardGameButtonActionPerformed
 
+    //go to your page
     private void YourPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YourPageButtonActionPerformed
         // TODO add your handling code here:
         this.dispose();

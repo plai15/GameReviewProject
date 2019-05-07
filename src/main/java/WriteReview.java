@@ -1,14 +1,16 @@
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
+import java.util.ArrayList;
+import java.util.List;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: GUI window for writing a review
  */
 public class WriteReview extends javax.swing.JFrame {
 
@@ -62,6 +64,7 @@ public class WriteReview extends javax.swing.JFrame {
 
         jLabel2.setText("Score");
 
+        reviewField.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         reviewField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reviewFieldActionPerformed(evt);
@@ -102,18 +105,17 @@ public class WriteReview extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
                                 .addComponent(postButton))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(backButton)
-                                .addGap(225, 225, 225)
-                                .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(278, 278, 278)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(gameNameField)
-                                    .addComponent(errorLabel))))
+                        .addComponent(backButton)
+                        .addGap(225, 225, 225)
+                        .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(237, 237, 237)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(errorLabel)
+                    .addComponent(gameNameField))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,20 +159,24 @@ public class WriteReview extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    //gets the review, and updates user stats based on it
     private void postButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postButtonActionPerformed
         // TODO add your handling code here:
         String username, review, game;
         double reviewScore;
         MongoConnection myMongo = new MongoConnection();
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
-        
+        MongoCollection<org.bson.Document> users = myMongo.database.getCollection("Login");
         
         if (this.isVideoGame) {
             coll = myMongo.database.getCollection("VideoGameReview");
         } else {
             coll = myMongo.database.getCollection("BoardGameReview");
         }
-
+        
+        //try and retrieve user from the database and buiild their review
+        org.bson.Document user = (org.bson.Document) users.find(eq("username", this.username)).first();
+        int totalReviews = Integer.parseInt(user.get("totalReviews").toString());
         try {
             username = this.username;
             game = this.gameName;
@@ -178,19 +184,27 @@ public class WriteReview extends javax.swing.JFrame {
             reviewScore = Double.parseDouble(this.scoreField.getText());
             if(reviewScore < 0.0 || reviewScore > 5.0) {
                 errorLabel.setText("Error, review must be between 0.0 and 5.0");
+                errorLabel.setVisible(true);
                 return;
             }
         } catch (NumberFormatException e) {
             errorLabel.setText("Error, review must be between 0.0 and 5.0");
+            errorLabel.setVisible(true);
             return;
         }
-
+        totalReviews ++;
+        List<BasicDBObject> likedGames = new ArrayList();
+        if(reviewScore > 2.5) {
+            likedGames.add(new BasicDBObject("0", gameName));
+        }
+        //add new review and update user stats
         org.bson.Document reviewDoc = new org.bson.Document("Reviewing User", this.username)
                 .append("Game", game)
                 .append("Review", review)
                 .append("Score", reviewScore);
         coll.insertOne(reviewDoc);
-
+        users.updateOne(eq("username", this.username), set("totalReviews", totalReviews));
+        users.updateOne(eq("username", this.username), set("likedGames", likedGames));
         this.dispose();
     }//GEN-LAST:event_postButtonActionPerformed
 

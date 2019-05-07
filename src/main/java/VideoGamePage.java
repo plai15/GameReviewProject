@@ -7,15 +7,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.bson.Document;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author tv8392uu
+ * Assignment: Final Project
+ * Author: Brandon Salmon and PK Lai
+ * Description: Main GUI page for video games
  */
 public class VideoGamePage extends javax.swing.JFrame {
 
@@ -26,6 +21,8 @@ public class VideoGamePage extends javax.swing.JFrame {
     public VideoGamePage(String username) {
         initComponents();
         this.username = username;
+        
+        //get 50 of the latest reviews and display
         MongoConnection myMongo = new MongoConnection();
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
         FindIterable<Document> cursor = coll.find();
@@ -83,10 +80,11 @@ public class VideoGamePage extends javax.swing.JFrame {
 
         GameReviewArea.setEditable(false);
         GameReviewArea.setColumns(20);
+        GameReviewArea.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         GameReviewArea.setRows(5);
         jScrollPane1.setViewportView(GameReviewArea);
 
-        jLabel2.setText("Search");
+        jLabel2.setText("Games");
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +119,7 @@ public class VideoGamePage extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, 201, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, 0, 234, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(latestReviewsLabel)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -158,6 +156,7 @@ public class VideoGamePage extends javax.swing.JFrame {
         new MainMenu(username).setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
 
+    //comboBox brings up individual game's pages
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         this.dispose();
