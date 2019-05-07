@@ -1,4 +1,5 @@
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
@@ -28,6 +29,8 @@ public class VideoGamePage extends javax.swing.JFrame {
         MongoConnection myMongo = new MongoConnection();
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
         FindIterable<Document> cursor = coll.find();
+        cursor.sort(new BasicDBObject("$natural", -1));
+
         ArrayList<Document> reviewList = new ArrayList();
         
         
@@ -40,7 +43,7 @@ public class VideoGamePage extends javax.swing.JFrame {
         Document thisReview;
         String hotReviews = "";
         for(int i = 0; i < 50; i ++) {
-            thisReview = reviewList.get(rand.nextInt(reviewList.size()));
+            thisReview = reviewList.get(i);
             
             hotReview.setUserName(thisReview.get("Reviewing User").toString());
             hotReview.setGameName(thisReview.get("Game").toString());
@@ -93,7 +96,7 @@ public class VideoGamePage extends javax.swing.JFrame {
         });
 
         latestReviewsLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        latestReviewsLabel.setText("Hot Reviews");
+        latestReviewsLabel.setText("Latest Reviews");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

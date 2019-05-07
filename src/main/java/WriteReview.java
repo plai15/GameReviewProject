@@ -1,9 +1,11 @@
+
+import com.mongodb.client.MongoCollection;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author tv8392uu
@@ -15,14 +17,15 @@ public class WriteReview extends javax.swing.JFrame {
      */
     private String gameName, username;
     private boolean isVideoGame;
-    
+
     public WriteReview(String gameName, String username, boolean isVideoGame) {
         initComponents();
         this.gameName = gameName;
         this.username = username;
         this.isVideoGame = isVideoGame;
         this.gameNameField.setText(gameName);
-        
+        this.errorLabel.setVisible(false);
+
     }
 
     /**
@@ -35,20 +38,22 @@ public class WriteReview extends javax.swing.JFrame {
     private void initComponents() {
 
         reviewLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        scoreField = new javax.swing.JTextField();
         gameNameField = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         reviewField = new javax.swing.JTextField();
         backButton = new javax.swing.JButton();
+        postButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         reviewLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         reviewLabel.setText("Write A Review");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        scoreField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                scoreFieldActionPerformed(evt);
             }
         });
 
@@ -70,6 +75,16 @@ public class WriteReview extends javax.swing.JFrame {
             }
         });
 
+        postButton.setText("Post!");
+        postButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                postButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(255, 0, 51));
+        errorLabel.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,43 +93,62 @@ public class WriteReview extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(97, 97, 97)
-                        .addComponent(gameNameField))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(reviewField, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(backButton))
-                .addContainerGap(102, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(scoreField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
+                                .addComponent(postButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(313, 313, 313)
+                                .addComponent(errorLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(backButton)
+                                .addGap(225, 225, 225)
+                                .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(248, 248, 248)
+                .addComponent(gameNameField)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gameNameField))
-                .addGap(44, 44, 44)
-                .addComponent(reviewField, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                    .addComponent(backButton)
+                    .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(gameNameField)
+                        .addGap(18, 18, 18)
+                        .addComponent(errorLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(reviewField, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(scoreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(postButton)
+                        .addGap(30, 30, 30))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void scoreFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scoreFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_scoreFieldActionPerformed
 
     private void reviewFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewFieldActionPerformed
         // TODO add your handling code here:
@@ -125,12 +159,50 @@ public class WriteReview extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void postButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postButtonActionPerformed
+        // TODO add your handling code here:
+        String username, review, game;
+        double reviewScore;
+        MongoConnection myMongo = new MongoConnection();
+        MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
+
+        if (this.isVideoGame) {
+            coll = myMongo.database.getCollection("VideoGameReview");
+        } else {
+            coll = myMongo.database.getCollection("BoardGameReview");
+        }
+
+        try {
+            username = this.username;
+            game = this.gameName;
+            review = this.reviewField.getText();
+            reviewScore = Double.parseDouble(this.scoreField.getText());
+            if(reviewScore < 0.0 || reviewScore > 5.0) {
+                errorLabel.setText("Error, review must be between 0.0 and 5.0");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Error, review must be between 0.0 and 5.0");
+            return;
+        }
+
+        org.bson.Document reviewDoc = new org.bson.Document("Reviewing User", username)
+                .append("Game", game)
+                .append("Review", review)
+                .append("Score", reviewScore);
+        coll.insertOne(reviewDoc);
+
+        this.dispose();
+    }//GEN-LAST:event_postButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel gameNameField;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton postButton;
     private javax.swing.JTextField reviewField;
     private javax.swing.JLabel reviewLabel;
+    private javax.swing.JTextField scoreField;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,8 @@
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.Random;
 import org.bson.Document;
@@ -27,7 +29,8 @@ public class BoardGamePage extends javax.swing.JFrame {
         this.username = username;
         initComponents();MongoConnection myMongo = new MongoConnection();
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("BoardGameReview");
-        FindIterable<Document> cursor = coll.find();
+        FindIterable<Document> cursor = coll.find().sort(new BasicDBObject("$natural", -1));
+        cursor.sort(new BasicDBObject("$natural", -1));
         ArrayList<Document> reviewList = new ArrayList();
         
         
@@ -40,7 +43,7 @@ public class BoardGamePage extends javax.swing.JFrame {
         Document thisReview;
         String hotReviews = "";
         for(int i = 0; i < 50; i ++) {
-            thisReview = reviewList.get(rand.nextInt(reviewList.size()));
+            thisReview = reviewList.get(i);
             
             hotReview.setUserName(thisReview.get("Reviewing User").toString());
             hotReview.setGameName(thisReview.get("Game").toString());
@@ -81,6 +84,7 @@ public class BoardGamePage extends javax.swing.JFrame {
         gameReviewArea.setEditable(false);
         gameReviewArea.setColumns(20);
         gameReviewArea.setRows(5);
+        gameReviewArea.setAutoscrolls(false);
         jScrollPane1.setViewportView(gameReviewArea);
 
         jLabel2.setText("Search");
@@ -93,7 +97,7 @@ public class BoardGamePage extends javax.swing.JFrame {
         });
 
         latestReviewsLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        latestReviewsLabel1.setText("Hot Reviews");
+        latestReviewsLabel1.setText("Latest Reviews");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

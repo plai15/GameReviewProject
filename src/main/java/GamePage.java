@@ -1,4 +1,5 @@
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import static com.mongodb.client.model.Filters.eq;
@@ -54,7 +55,9 @@ public class GamePage extends javax.swing.JFrame {
             gameTitleLabel.setText(thisGame.getName());
 
             reviewColl = mongo.database.getCollection("VideoGameReview");
-            FindIterable<Document> cursor = reviewColl.find();
+            FindIterable<Document> cursor = reviewColl.find().sort(eq("$natural", -1));
+            cursor.sort(new BasicDBObject("$natural", -1));
+
             ArrayList<Document> reviewList = new ArrayList();
 
             for (Document doc : cursor) {
@@ -101,7 +104,9 @@ public class GamePage extends javax.swing.JFrame {
             gameTitleLabel.setText(thisGame.getName());
 
             reviewColl = mongo.database.getCollection("BoardGameReview");
-            FindIterable<Document> cursor = reviewColl.find();
+            FindIterable<Document> cursor = reviewColl.find().sort(new BasicDBObject("$natural", -1));
+            cursor.sort(new BasicDBObject("$natural", -1));
+
             ArrayList<Document> reviewList = new ArrayList();
 
             for (Document doc : cursor) {
@@ -168,6 +173,7 @@ public class GamePage extends javax.swing.JFrame {
         gameTitleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         gameTitleLabel.setText("Game Title");
 
+        gameInfoArea.setEditable(false);
         gameInfoArea.setColumns(20);
         gameInfoArea.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         gameInfoArea.setRows(5);
@@ -181,8 +187,9 @@ public class GamePage extends javax.swing.JFrame {
         });
 
         latestReviewsLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        latestReviewsLabel.setText("Latest Reviews");
+        latestReviewsLabel.setText("Hot Reviews");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -194,6 +201,7 @@ public class GamePage extends javax.swing.JFrame {
             }
         });
 
+        latestReviews.setEditable(false);
         latestReviews.setColumns(20);
         latestReviews.setRows(5);
         jScrollPane4.setViewportView(latestReviews);
@@ -262,7 +270,7 @@ public class GamePage extends javax.swing.JFrame {
 
     private void reviewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reviewButtonActionPerformed
         // TODO add your handling code here:
-        new WriteReview(username, gameName, isVideoGame).setVisible(true);
+        new WriteReview(this.gameName,this.username,this.isVideoGame).setVisible(true);
     }//GEN-LAST:event_reviewButtonActionPerformed
 
     /**
