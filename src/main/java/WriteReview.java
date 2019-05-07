@@ -104,18 +104,16 @@ public class WriteReview extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(313, 313, 313)
-                                .addComponent(errorLabel))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(backButton)
                                 .addGap(225, 225, 225)
-                                .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(reviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(278, 278, 278)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(gameNameField)
+                                    .addComponent(errorLabel))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(25, 25, 25))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(gameNameField)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +163,8 @@ public class WriteReview extends javax.swing.JFrame {
         double reviewScore;
         MongoConnection myMongo = new MongoConnection();
         MongoCollection<org.bson.Document> coll = myMongo.database.getCollection("VideoGameReview");
-
+        
+        
         if (this.isVideoGame) {
             coll = myMongo.database.getCollection("VideoGameReview");
         } else {
@@ -186,7 +185,7 @@ public class WriteReview extends javax.swing.JFrame {
             return;
         }
 
-        org.bson.Document reviewDoc = new org.bson.Document("Reviewing User", username)
+        org.bson.Document reviewDoc = new org.bson.Document("Reviewing User", this.username)
                 .append("Game", game)
                 .append("Review", review)
                 .append("Score", reviewScore);

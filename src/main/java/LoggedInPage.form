@@ -84,6 +84,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="userInfoArea">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Grande" size="18" style="0"/>
@@ -102,6 +103,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="reviewArea">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>

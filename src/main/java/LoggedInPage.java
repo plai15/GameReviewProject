@@ -90,7 +90,7 @@ public class LoggedInPage extends javax.swing.JFrame {
             hotReview.setReview(thisReview.get("Review").toString());
             hotReview.setScore(thisReview.get("Score").toString());
 
-            hotReviews += hotReview.toString() + "\n";
+            hotReviews += hotReview.toString() + "\n\n";
         }
         
         this.reviewArea.setText(hotReviews);
@@ -119,11 +119,13 @@ public class LoggedInPage extends javax.swing.JFrame {
         userNameLabel.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         userNameLabel.setText("User");
 
+        userInfoArea.setEditable(false);
         userInfoArea.setColumns(20);
         userInfoArea.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         userInfoArea.setRows(5);
         jScrollPane1.setViewportView(userInfoArea);
 
+        reviewArea.setEditable(false);
         reviewArea.setColumns(20);
         reviewArea.setRows(5);
         jScrollPane2.setViewportView(reviewArea);
